@@ -34,5 +34,5 @@ func main() {
 	routes.SetupRouter(r, userController)
 
 	// Serverni ishga tushurish
-	r.Run(":8080")
+	r.Run(":3000")
 }
