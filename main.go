@@ -20,8 +20,9 @@ func main() {
 	// load
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Warning: Error loading .env file")
 	}
+
 	// load env data
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
@@ -40,12 +41,13 @@ func main() {
 		dbUser, dbPassword, dbName, dbHost, dbPort, dbSslMode, dbTimezone)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		fmt.Println("Error connecting to the database")
-		return
+		log.Fatal("Error connecting to the database:", err)
 	}
 
 	// auto migrate
-	db.AutoMigrate(&models.User{}, &models.Role{})
+	if err := db.AutoMigrate(&models.User{}, &models.Role{}); err != nil {
+		log.Fatal("Error during migration:", err)
+	}
 
 	// gin route
 	r := gin.Default()
@@ -69,8 +71,7 @@ func main() {
 	private.GET("/api/v1/users", userController.GetAllUsers)
 
 	// run server
-	err = r.Run(":" + port)
-	if err != nil {
+	if err := r.Run(":" + port); err != nil {
 		log.Fatal("Error starting server:", err)
 	}
 	fmt.Printf("Server is running on port %s\n", port)
