@@ -1,0 +1,12 @@
+root = "."
+include = [
+  "**/*.go",
+  "**/*.html",
+  "**/*.env"
+]
+exclude = [
+  "tmp",
+  "vendor",
+]
+cmd = "go run main.go"
+clear_log = true
