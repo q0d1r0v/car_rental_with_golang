@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// auto migrate
-	if err := db.AutoMigrate(&models.User{}, &models.Role{}); err != nil {
+	if err := db.AutoMigrate(&models.User{}, &models.Role{}, &models.Booking{}, &models.Transaction{}, &models.Car{}); err != nil {
 		log.Fatal("Error during migration:", err)
 	}
 
