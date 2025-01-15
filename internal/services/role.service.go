@@ -10,7 +10,6 @@ type RoleService struct {
 	DB *gorm.DB
 }
 
-// Barcha foydalanuvchilarni olish
 func (s *RoleService) GetAllRoles() ([]models.Role, error) {
 	var roles []models.Role
 	result := s.DB.Find(&roles)
